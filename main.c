@@ -17,16 +17,7 @@ int CAN_Activity=0;
 
 //=====Initialization Functions======
 
-/*+++++++++++++++++++++++++++
- * Initialise the DCO clock module (used as input to SMCLK)
- *  - Increase frequency to approx. 5 MHz
-+++++++++++++++++++++++++++++ */
-void clock_init( void )
-{
-	DCOCTL =  DCO0 + DCO1 + DCO2; //set DCO to 7, MOD to 0 (lower 5 bits)
-	BCSCTL1 = RSEL2 + RSEL1 + RSEL0; //enable LFCLK (32768 Hz osc.) with no divider, set RSEL to 7 (DCO -> ~5 MHz)
-	BCSCTL2 = 0x00;  //clock sources and dividers for MCLK/SMCLK will be DCO w/ no divider
-}
+
 
 /*+++++++++++++++++++++++++
  * Initialise I/O port directions and states
@@ -45,35 +36,9 @@ void io_init( void )
 	P1DIR &= ~0x01;
 	
 	init_LCD_IO();
-	
-	//spare pins to output to avoid floating pins
-	P1DIR |= 0x2; 						//P1.1
-	P2DIR |= 0x1 | 0x2 | 0x4; 			//P2 pins 0-2
-	P3DIR |= 0x8 | 0x10 | 0x20 | 0x40; 	//P3 pins 4-7
 }
 
-/*+++++++++++++++++++++++++++++++++++++++++++++++
- * Initialise the timer and CCR registers
- *	- 1.5 Hz output that will be used to driver blinkers
-++++++++++++++++++++++++++++++++++++++++++++++++++*/
-void timer_init( void )
-{
-	TACCR0 = 5446; //32678 / 1.5 Hz / 4 (divider) = 
-	CCR1 = 0;
-	CCR2 = 0;
-	CCTL1 = OUTMOD_4;		//toggle output on TACCR1 value
-	CCTL2 = OUTMOD_4;		//toggle output on TACCR1 value
-	TACTL = TASSEL_1 + MC_1 + ID_2; //run from ACLK (32768 Hz Xtal), count-up mode (to TACCR0)
-}
-/*+++++++++++++++++++++++++++++++++++++++++++++++
- * Initialise the interupt
-++++++++++++++++++++++++++++++++++++++++++++++++++*/
-void int_init( void )
-{
-	//Possible site of error TODO
-	P2IES |= 0x01; //interrupt on hi-to-lo transition
-	P2IE |= 0x01; //enable P2.0 interrupt
-}
+
 //=====Program======
 
 //+++++Interrupts+++++
@@ -132,11 +97,11 @@ int main()
 	//asm("nop");
 			
 	//Initialise the necessary clocks, from the right sources
-	clock_init();
+	initClocks();
 	//Initialise the necessary IO ports
 	io_init();	
 	//Initialise the timer/CCR module
-	timer_init();	
+	initTimers();	
 	//Initialise the SPI module
 	spi_init(0); //use SMCLK (faster than ACLK)	
 	//Initialise the attached CAN controller via SPI
@@ -144,28 +109,23 @@ int main()
 	//enable interrupts
 	int_init();
 	
-	_BIS_SR(LPM3_bits + GIE);
+	_BIS_SR(GIE);
 	
 	// Device Configuration and Setup
 	initClocks();
 	initTimers();
+		
+	//===LCD Setup===
+	initLCD();
+	LCD_Cmd_DisplayConfig(DISPLAY_ON | CURSOR_OFF | BLINK_OFF);
+	//LCD_Cmd_SetDdramAddr(LINE1_HOME_ADDR);
+	LCD_Cmd_Home();
 	
 	P2OUT |= 0x02; 
-	sprintf(text, "Hello, my name is ");
-	LCD_Cmd_WriteLine(1, text);
-	Wait_TimerA0();
-	//sprintf(text, "Midnight Sun X!");
-	//LCD_Cmd_WriteLine(2, text);
-	//Wait_TimerA0();
-	//sprintf(text, "I am a solar car.");
-	//LCD_Cmd_WriteLine(3, text);
-	//Wait_TimerA0();
-	                          // SW Delay
-    //for (i=0; i<50000000;i++);
+	
     volatile unsigned int i;            // volatile to prevent optimization
 	while (1)
 	{	
-    
 	    sprintf(text, "CAN_Activity: CAN_Activity %i", CAN_Activity);
 		LCD_Cmd_WriteLine(1, text);
 		sprintf(text, "CAN Error: %i", CAN_error);
@@ -178,56 +138,3 @@ int main()
 	
 	//return 0;
 }
-
-/*
-//=====Code that might be useful later=============
-
-//===HelloWorld Testing code====
-
-void main(void)
-{
-  	//===Declarations===
-  	char text[NUM_OF_CHAR_PER_LINE + 1]; // one extra for '\0', 'char' for stdio.hs
-	
-  	WDTCTL = WDTPW + WDTHOLD;             // Stop watchdog timer
-  	P2DIR |= 0x02;                        // Set P1.0 to output direction
-	
-
-	
-	//===Device Configuration and Setup===
-	WDTCTL = WDTPW + WDTHOLD; // Stop WDT
-	initClocks();
-	initIO();
-	initTimers();
-
-	//===LCD Setup===
-	initLCD();
-	LCD_Cmd_DisplayConfig(DISPLAY_ON | CURSOR_OFF | BLINK_OFF);
-	LCD_Cmd_SetDdramAddr(LINE1_HOME_ADDR);
-
-
-	
-	
-
-	//_BIS_SR(GIE); // enable maskable interrupts
-
-  
-
-  LCD_Cmd_ClearLine(1);
-  while(1)
-  {
-    volatile unsigned int i;            // volatile to prevent optimization
-
-    P2OUT ^= 0x02;                      // Toggle P2.2 using exclusive-OR
-    sprintf(text, "Hello, my name is ");
-	LCD_Cmd_WriteLine(1, text);
-	sprintf(text, "Midnight Sun X!");
-	LCD_Cmd_WriteLine(2, text);
-	sprintf(text, "I am a solar car.");
-	LCD_Cmd_WriteLine(3, text);
-    i = 0;                          // SW Delay
-    for (i; i<500000;i++);
-  }
- 
-}
-*/

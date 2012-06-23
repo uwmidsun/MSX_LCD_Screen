@@ -8,9 +8,9 @@
 /* ********************************************************************************	*/
 
 /* ================================== #include =================================== */
-#include <msp430f2272.h>
-#include "globals.h"
+
 #include "lcd.h"
+#include "global.h"
 
 /* ================================== Private Variable Declarations =================================== */
 
@@ -25,8 +25,8 @@
 /* ================================== Private Function Prototypes =================================== */
 
 void LCD_Wait6us (vu16 Count);
-//u8 LCD_ReadChar(void);
-//void LCD_LoadChar(u8 DB_Char);
+u8 LCD_ReadChar(void);
+void LCD_LoadChar(u8 DB_Char);
 u8 LCD_RunCommand(u8 DataMode, u8 ReadMode, u8 DataChar);
 void LCD_FunctionSetInit(void);
 
@@ -42,7 +42,7 @@ void LCD_Wait6us (vu16 Count) {
 
 /* --------------- LCD_ReadChar Function --------------- */
 // Note: This function assumes LCD data lines are already set as inputs
-/*u8 LCD_ReadChar(void) {
+u8 LCD_ReadChar(void) {
 
 	u8 DataChar = 0;
 
@@ -64,11 +64,11 @@ void LCD_Wait6us (vu16 Count) {
 
 	return DataChar;
 }
-*/
+
 /* --------------- LCD_LoadChar Function --------------- */
 // Helper: Loads parameter DB_Char to HW latch pins, but without changing LCD enable line
 void LCD_LoadChar(u8 DB_Char) {
-/*
+
 	if (DB_Char & 0x01) { // Pin 0
 		LCD_SET_D0();
 	}
@@ -130,9 +130,7 @@ void LCD_LoadChar(u8 DB_Char) {
 	}
 	else {
 		LCD_CLR_D7();
-	}*/
-	
-	P1OUT = DB_Char;
+	}
 
 }
 
@@ -153,7 +151,7 @@ u8 LCD_RunCommand(u8 DataMode, u8 ReadMode, u8 DataChar) {
 		LCD_Wait6us(1); // Wait 300ns min
 		LCD_ENABLE();
 		LCD_Wait6us(1); // Wait 1.2us min
-		//DataRetrieved = LCD_ReadChar();
+		DataRetrieved = LCD_ReadChar();
 		LCD_DISABLE();
 		LCD_Wait6us(1); // Wait 300ns min
 	}
@@ -348,7 +346,7 @@ void LCD_Cmd_WaitTillReady(void) {
 }
 
 /* --------------- (9b) LCD_Cmd_ReadCurrentAddr Function --------------- */
-/*u8 LCD_Cmd_ReadCurrentAddr(void) {
+u8 LCD_Cmd_ReadCurrentAddr(void) {
 	u8 DataChar = 0;
 
 	DataChar = LCD_RunCommand(INSTRUCTION_MODE, READ_MODE, 0);
@@ -356,14 +354,13 @@ void LCD_Cmd_WaitTillReady(void) {
 
 	return DataChar;
 }
-*/
+
 /* --------------- (10) LCD_Cmd_WriteData Function --------------- */
 void LCD_Cmd_WriteData(u8 DataChar) {
 	LCD_RunCommand(DATA_MODE, WRITE_MODE, DataChar);
 }
 
 /* --------------- (11) LCD_Cmd_ReadDataChar Function --------------- */
-/*u8 LCD_Cmd_ReadDataChar(void) {
+u8 LCD_Cmd_ReadDataChar(void) {
 	return LCD_RunCommand(DATA_MODE, READ_MODE, 0);
 }
-*/

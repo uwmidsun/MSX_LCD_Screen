@@ -1,15 +1,68 @@
-/* *********************************** init.c ***********************************	*/
-//
-// Function: Includes functions and variables that has to do with configuaring the microcontroller's settings
-//
-/* ********************************************************************************	*/
+/**************************************************
+init.c 
 
-/* =================================== #includes =================================== */
-#include <msp430f2272.h>
-#include "globals.h"
-#include "init.h"
+Initialize the variables and initial MSP430 settings 
 
-/* =================================== Function Definitions =================================== */
+**************************************************/
+
+//#includes
+
+#include "global.h"
+#include "init.h" 
+
+/*
+* Function : io_init
+* Last Updated: July 10th, 2011 
+* input parameters: none
+* return vales: none 
+*
+* Description: 
+* Set Initialize the purpose of each the pins that we indend to use 
+* according to whether or not they're input or output pins 
+*
+* Set a pin to 1 for output, and set it 0 for input 
+* All pins that are unused should be set as outputs to avoid them floating 
+*
+* Notation notes: 
+* 
+* P(*)DIR : Set the direction of the pin, 1 or output, 0 for input 
+*
+*/ 
+void initIO(void)
+{
+
+	//Set CAN 
+	//Interupt set as input 
+	//Everything else is set as output just to give an initialized state - temporary 
+	P2DIR 				|= ~CAN_int_pin; 
+	P3DIR 				|= CAN_nCS | CAN_MOSI | CAN_MISO | CAN_SCLK;
+	
+	//Switches on panel set to input 
+	P2DIR 				|= ~(Panel_SW1 | Panel_SW1);
+	
+	P1OUT = 0x00;
+	P2OUT = 0x00;
+	P3OUT = 0x01;
+	//P4OUT = 0x00;
+	
+	// Spare pins set to output to aovid floating 
+	P1DIR |= 0x0F;
+
+	// Configure all LCD GPIO as outputs
+	LCD_RS_PINDIR_REG	|= LCD_RS_PINBIT_MASK;
+	LCD_RW_PINDIR_REG	|= LCD_RW_PINBIT_MASK;
+	LCD_E_PINDIR_REG	|= LCD_E_PINBIT_MASK;
+	LCD_DX_PINDIR_REG	|= LCD_D0_PINBIT_MASK
+						| LCD_D1_PINBIT_MASK
+						| LCD_D2_PINBIT_MASK
+						| LCD_D3_PINBIT_MASK
+						| LCD_D4_PINBIT_MASK
+						| LCD_D5_PINBIT_MASK
+						| LCD_D6_PINBIT_MASK
+						| LCD_D7_PINBIT_MASK;
+
+}
+
 
 /* ~~~~~~~~~~~~~~~ initClocks Function ~~~~~~~~~~~~~~~ */
 // Set MCLK = SMCLK = DCOCLK = approx 2.00MHz with Rosc = 100k 1% 0.6W 50ppm/C
@@ -29,23 +82,6 @@ void initClocks(void) {
 	BCSCTL2 = DCOR;
 }
 
-/* ~~~~~~~~~~~~~~~ initIO Function ~~~~~~~~~~~~~~~ */
-void init_LCD_IO(void) {
-
-	// Configure all LCD GPIO as outputs
-	LCD_RS_PINDIR_REG	|= LCD_RS_PINBIT_MASK;
-	LCD_RW_PINDIR_REG	|= LCD_RW_PINBIT_MASK;
-	LCD_E_PINDIR_REG	|= LCD_E_PINBIT_MASK;
-	LCD_D0_PINDIR_REG	|= LCD_D0_PINBIT_MASK;
-	LCD_D1_PINDIR_REG	|= LCD_D1_PINBIT_MASK;
-	LCD_D2_PINDIR_REG	|= LCD_D2_PINBIT_MASK;
-	LCD_D3_PINDIR_REG	|= LCD_D3_PINBIT_MASK;
-	LCD_D4_PINDIR_REG	|= LCD_D4_PINBIT_MASK;
-	LCD_D5_PINDIR_REG	|= LCD_D5_PINBIT_MASK;
-	LCD_D6_PINDIR_REG	|= LCD_D6_PINBIT_MASK;
-	LCD_D7_PINDIR_REG	|= LCD_D7_PINBIT_MASK;
-	
-}
 
 /* ~~~~~~~~~~~~~~~ initTimers Function ~~~~~~~~~~~~~~~ */
 // Set timer to up counting mode; set timer period; set timer clock source
