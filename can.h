@@ -1,4 +1,10 @@
 /*
+ * Modified (maybe) from Tritium DCU source code for use by the Midnight Sun
+ * Solar Race Team.
+ * Original copyright notice is included below
+ */
+
+ /*
  * Tritium MCP2515 CAN interface header
  * Copyright (c) 2008, Tritium Pty Ltd.  All rights reserved.
  *
@@ -27,30 +33,12 @@
  *
  */
 
-typedef union _group_64 {
-	float data_fp[2];
-	unsigned char data_u8[8];
-	unsigned int data_u16[4];
-	unsigned long data_u32[2];
-} group_64;
-
-typedef union group_32 {
-	float data_fp;
-	unsigned char data_u8[4];
-	unsigned int data_u16[2];
-	unsigned long data_u32;
-} group_32;
-
-typedef union group_16 {
-	unsigned char data_u8[2];
-	unsigned int data_u16;
-} group_16;
+#include "main.h"
 
 // Public function prototypes
 extern void 			can_init( void );
 extern void 			can_transmit( void );
 extern void 			can_receive( void );
-
 
 // Public variables
 typedef struct _can_variables {
@@ -77,7 +65,21 @@ void 					can_mod( unsigned char address, unsigned char mask, unsigned char data
 #define can_deselect	P3OUT |= CAN_nCS
 
 // Device serial number
-#define DEVICE_SERIAL	2303
+#define DEVICE_SERIAL	0001
+
+// Driver controls CAN base address and packet offsets
+#define DC_CAN_BASE		0x0500
+#define DC_DRIVE		0x01
+#define DC_POWER		0x02
+#define DC_RESET		0x03
+#define DC_SWITCH		0x04
+
+// Status values (for message reception)
+#define CAN_ERROR		0xFFFF
+#define CAN_MERROR		0xFFFE
+#define CAN_WAKE		0xFFFD
+#define CAN_RTR			0xFFFC
+#define CAN_OK			0x0001
 
 // Motor controller CAN base address and packet offsets
 #define	MC_CAN_BASE		0x0400
@@ -96,24 +98,10 @@ void 					can_mod( unsigned char address, unsigned char mask, unsigned char data
 #define MC_TEMP3		0x0D
 #define MC_CUMULATIVE	0x0E
 
-// Driver controls CAN base address and packet offsets
-#define DC_CAN_BASE		0x0500
-#define DC_DRIVE		0x01
-#define DC_POWER		0x02
-#define DC_RESET		0x03
-#define DC_SWITCH		0x04
-
-// Status values (for message reception)
-#define CAN_ERROR		0xFFFF
-#define CAN_MERROR		0xFFFE
-#define CAN_WAKE		0xFFFD
-#define CAN_RTR			0xFFFC
-#define CAN_OK			0x0001
-
 // Driver controls switch position packet bitfield positions (lower 16 bits)
 #define SW_LIGHT_HIGH	0x0001
-#define SW_CRUISE_ENB	0x0002
-#define SW_VOLT_CRNT	0x0004
+#define SW_LIGHT_LOW	0x0002
+#define SW_LIGHT_PARK	0x0004
 #define SW_BRAKE_2		0x0008
 #define SW_BRAKE_1		0x0010
 #define SW_REVERSE		0x0020

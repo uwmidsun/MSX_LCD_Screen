@@ -1,4 +1,10 @@
 /*
+ * Modified (maybe) from Tritium DCU source code for use by the Midnight Sun
+ * Solar Race Team.
+ * Original copyright notice is included below
+ */
+
+ /*
  * Tritium MCP2515 CAN Interface
  * Copyright (c) 2006, Tritium Pty Ltd.  All rights reserved.
  *
@@ -28,8 +34,8 @@
  */
 
 // Include files
-#include <msp430x13x.h>
-#include "global.h"
+#include <msp430f2272.h>
+#include "main.h"
 #include "can.h"
 #include "spi.h"
 
@@ -67,12 +73,9 @@ void can_init( void )
 	can_mod( CANCTRL, 0x03, 0x02 );			// CANCTRL register, modify lower 2 bits, CLK = /4
 	
 	// Set up bit timing & interrupts
-//	buffer[0] = 0x02;						// CNF3 register: PHSEG2 = 3Tq, No wakeup, CLKOUT = CLK
-//	buffer[1] = 0xC9;						// CNF2 register: set PHSEG2 in CNF3, Triple sample, PHSEG1= 2Tq, PROP = 2Tq
-//	buffer[2] = 0x00;						// CNF1 register: SJW = 1Tq, BRP = 0
-	buffer[0] = 0x05;						// 250 kbps settings
-	buffer[1] = 0xF1;						// 250 kbps settings
-	buffer[2] = 0x01;						// 250 kbps settings
+	buffer[0] = 0x05;						// CNF3 Register: 250 kbps settings
+	buffer[1] = 0xF1;						// CNF2 Register: 250 kbps settings
+	buffer[2] = 0x01;						// CNF1 Register: 250 kbps settings
 	buffer[3] = 0x23;						// CANINTE register: enable ERROR, RX0 & RX1 interrupts on IRQ pin
 	buffer[4] = 0x00;						// CANINTF register: clear all IRQ flags
 	buffer[5] = 0x00;						// EFLG register: clear all user-changable error flags
@@ -80,8 +83,8 @@ void can_init( void )
 	
 	// Set up receive filtering & masks
 	// RXF0 - Buffer 0
-	buffer[ 0] = (unsigned char)((MC_CAN_BASE + MC_VELOCITY) >> 3);
-	buffer[ 1] = (unsigned char)((MC_CAN_BASE + MC_VELOCITY) << 5);
+	buffer[ 0] = (unsigned char)((DC_CAN_BASE + DC_SWITCH) >> 3);
+	buffer[ 1] = (unsigned char)((DC_CAN_BASE + DC_SWITCH) << 5);
 	buffer[ 2] = 0x00;
 	buffer[ 3] = 0x00;
 	// RXF1 - Buffer 0
@@ -90,8 +93,8 @@ void can_init( void )
 	buffer[ 6] = 0x00;
 	buffer[ 7] = 0x00;
 	// RXF2 - Buffer 1
-	buffer[ 8] = (unsigned char)(DC_CAN_BASE >> 3);
-	buffer[ 9] = (unsigned char)(DC_CAN_BASE << 5);
+	buffer[ 8] = 0;
+	buffer[ 9] = 0;
 	buffer[10] = 0x00;
 	buffer[11] = 0x00;
 	can_write( RXF0SIDH, &buffer[0], 12 );
@@ -240,6 +243,8 @@ void can_receive( void )
  *	- Only modifies address information if it's different from what is already set up in CAN controller
  *	- Assumes constant 8-byte data length value
  */
+ 
+/*
 void can_transmit( void )
 {
 	static unsigned int buf_addr[3] = {0xFFFF, 0xFFFF, 0xFFFF};
@@ -331,7 +336,7 @@ void can_transmit( void )
 		}			
 	}
 }
-
+*/
 
 /**************************************************************************************************
  * PRIVATE FUNCTIONS

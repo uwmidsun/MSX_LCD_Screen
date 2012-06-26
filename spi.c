@@ -1,24 +1,6 @@
 /*
- * Tritium MSP430 SPI interface
- * Copyright (c) 2006, Tritium Pty Ltd.  All rights reserved.
  *
- * Redistribution and use in source and binary forms, with or without modification, 
- * are permitted provided that the following conditions are met:
- *  - Redistributions of source code must retain the above copyright notice, this list of conditions and the following disclaimer.
- *	- Redistributions in binary form must reproduce the above copyright notice, this list of conditions and the following disclaimer 
- *	  in the documentation and/or other materials provided with the distribution.
- *	- Neither the name of Tritium Pty Ltd nor the names of its contributors may be used to endorse or promote products 
- *	  derived from this software without specific prior written permission.
- *
- * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, 
- * INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. 
- * IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
- * OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, 
- * OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, 
- * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY 
- * OF SUCH DAMAGE. 
- *
- * Last Modified: J.Kennedy, Tritium Pty Ltd, 18 December 2006
+ * Last Modified: Xin Jin, 16 February 2012
  *
  * - Implements the following SPI interface functions
  *	- init
@@ -28,27 +10,36 @@
  */
 
 // Include files
-#include <msp430f2272.h>
-#include "global.h"
+#include <msp430f2272.h> 
+#include "main.h"
 #include "spi.h"
 
 /*
  * Initialise SPI port
  * 	- Master, 8 bits, mode 0:0, max speed, 3 wire
- * 	- Clock = 0: SMCLK /2 (works with no external clock input, DCO only)
- *	- Clock = 1: ACLK  /2 (fastest possible, from external clock input)
+ * 	- Clock = 0: SMCLK  (works with no external clock input, DCO only)
+ *	- Clock = 1: ACLK   (fastest possible, from external clock input)
  */
+ //Updated by Xin on Feb 16, 2012. 
 void spi_init( unsigned char clock )
 {
-	P3SEL |= CAN_MOSI | CAN_MISO | CAN_SCLK;	// Set pins to peripheral function, not GPIO
-	U0CTL = CHAR | SYNC | MM | SWRST;			// 8-bit, SPI, Master
-	if( clock == 0 ) U0TCTL = SSEL_2 | STC;	// Mode 0:0, BRCLK = SMCLK, 3-wire Mode
-	else U0TCTL = SSEL_1 | STC;				// Mode 0:0, BRCLK = ACLK, 3-wire Mode
-	U0BR0 = 0x02;								// SPICLK = BRCLK/2
-	U0BR1 = 0x00;
-	U0MCTL = 0x00;								// No modulation
-	ME1 |= USPIE0;								// Module enable
-	U0CTL &= ~SWRST;							// SPI enable
+	
+	// --set the direction // P3SEL |= CAN_MOSI | CAN_MISO | CAN_SCLK;	
+	//Note, may have to play around with polarity and clock edging 
+	UCB0CTL1 |= UCSWRST; //Hold module in logic freeze
+	UCB0CTL0 |= UCCKPH | UCMSB | UCMST | UCSYNC; // UCMODE 3-pin,8-bit SPI master
+	//UCMSB sets the 3wire vs 4 wire mode, old DCU seems to have used 4 pin mode. 
+	if( clock == 0 ) 
+	{
+		UCB0CTL1 =	UCSSEL1 ;//  BRCLK = ACLK
+	}
+	else 
+	{
+		UCB0CTL1 = UCSSEL1 | UCSSEL0 ;	// Mode 0:0, BRCLK = SMCL
+	}
+	UC0IE |= UCB0RXIE & UCB0TXIE; //Enable Recieve and Transmit interrupt flags 
+	UCB0CTL1 &= ~UCSWRST; //Release module for code execution 
+	
 }
 
 /*
@@ -61,9 +52,10 @@ void spi_init( unsigned char clock )
  */
 void spi_transmit( unsigned char data )
 {
-	U0TXBUF = data;
-	while(( IFG1 & URXIFG0 ) == 0x00 );	// Wait for Rx completion (implies Tx is also complete)
-	U0RXBUF;
+	UCB0TXBUF = data;
+	while(( IFG2 & UCB0TXIFG ) == 0x00 );	// Wait for Rx completion (implies Tx is also complete)
+	//U0RXBUF; vestigial line from old DCU, shouldn't be needed. 
+	// being left here for now for continuity sake 
 }
 
 /*
@@ -73,7 +65,7 @@ void spi_transmit( unsigned char data )
  */
 unsigned char spi_exchange( unsigned char data )
 {
-	U0TXBUF = data;
-	while(( IFG1 & URXIFG0 ) == 0x00 );	// Wait for Rx completion (implies Tx is also complete)
-	return( U0RXBUF );
+	UCB0TXBUF = data;
+	while(( IFG2 & UCB0RXIFG ) == 0x00 );// Wait for Rx completion (implies Tx is also complete)
+	return( UCB0RXBUF );
 }

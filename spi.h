@@ -1,4 +1,10 @@
 /*
+ * Modified (maybe) from Tritium DCU source code for use by the Midnight Sun
+ * Solar Race Team.
+ * Original copyright notice is included below
+ */
+
+ /*
  * Tritium MSP430 SPI interface header file
  * Copyright (c) 2006, Tritium Pty Ltd.  All rights reserved.
  *
