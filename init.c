@@ -28,7 +28,7 @@ Initialize the variables and initial MSP430 settings
 * P(*)DIR : Set the direction of the pin, 1 or output, 0 for input 
 *
 */ 
-void initIO(void)
+void init_IO(void)
 {
 
 	//Set CAN 
@@ -52,7 +52,7 @@ void initIO(void)
 	LCD_RS_PINDIR_REG	|= LCD_RS_PINBIT_MASK;
 	LCD_RW_PINDIR_REG	|= LCD_RW_PINBIT_MASK;
 	LCD_E_PINDIR_REG	|= LCD_E_PINBIT_MASK;
-	LCD_DX_PINDIR_REG	|= LCD_D0_PINBIT_MASK
+	/*LCD_DX_PINDIR_REG	|= LCD_D0_PINBIT_MASK
 						| LCD_D1_PINBIT_MASK
 						| LCD_D2_PINBIT_MASK
 						| LCD_D3_PINBIT_MASK
@@ -60,7 +60,7 @@ void initIO(void)
 						| LCD_D5_PINBIT_MASK
 						| LCD_D6_PINBIT_MASK
 						| LCD_D7_PINBIT_MASK;
-
+*/
 }
 
 
@@ -69,7 +69,11 @@ void initIO(void)
 // Set ACLK = XT1 in LF mode using external OSC @ 32.768kHz
 // OFIE (osc fault) interrupt disabled (default)
 void initClocks(void) {
+	DCOCTL =  DCO0 + DCO1 + DCO2; //set DCO to 7, MOD to 0 (lower 5 bits)
+	BCSCTL1 = RSEL2 + RSEL1 + RSEL0; //enable LFCLK (32768 Hz osc.) with no divider, set RSEL to 7 (DCO -> ~5 MHz)
+	BCSCTL2 = 0x00;  //clock sources and dividers for MCLK/SMCLK will be DCO w/ no divider
 
+/*
 	// Set DCO = 3; no modulator; 
 	DCOCTL = DCO0 + DCO1;
 
@@ -80,8 +84,8 @@ void initClocks(void) {
 	// Set MCLK = DCOCLK; no divider for MCLK; ...
 	// ... set SMCLK = DCOCLK; no divider for SMCLK; use external DCO resistor
 	BCSCTL2 = DCOR;
+	*/
 }
-
 
 /* ~~~~~~~~~~~~~~~ initTimers Function ~~~~~~~~~~~~~~~ */
 // Set timer to up counting mode; set timer period; set timer clock source
