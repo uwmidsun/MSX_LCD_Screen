@@ -11,6 +11,13 @@ C_SRCS += \
 ../main.c \
 ../spi.c 
 
+O_SRCS += \
+../can.o \
+../global.o \
+../init.o \
+../main.o \
+../spi.o 
+
 CMD_SRCS += \
 ../lnk_msp430f2272.cmd 
 
@@ -53,5 +60,12 @@ C_SRCS_QUOTED += \
 "../lcd.c" \
 "../main.c" \
 "../spi.c" 
+
+O_SRCS_QUOTED += \
+"../can.o" \
+"../global.o" \
+"../init.o" \
+"../main.o" \
+"../spi.o" 
 
 

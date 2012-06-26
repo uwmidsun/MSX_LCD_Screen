@@ -10,6 +10,7 @@
 /* ================================== #includes =================================== */
 
 #include "init.h"
+#include "globals.h"
 
 /* ================================== #defines =================================== */
 
@@ -35,7 +36,7 @@
 #define LCD_CLR_D5()	LCD_DX_PINOUT_REG&=~LCD_D5_PINBIT_MASK
 #define LCD_CLR_D6()	LCD_DX_PINOUT_REG&=~LCD_D6_PINBIT_MASK
 #define LCD_CLR_D7()	LCD_DX_PINOUT_REG&=~LCD_D7_PINBIT_MASK
-#define LCD_CLR_RS()	LCD_RX_PINOUT_REG&=~LCD_RS_PINBIT_MASK	// Instructions mode
+#define LCD_CLR_RS()	LCD_RS_PINOUT_REG&=~LCD_RS_PINBIT_MASK	// Instructions mode
 #define LCD_CLR_RW()	LCD_RW_PINOUT_REG&=~LCD_RW_PINBIT_MASK	// Write mode
 #define LCD_CLR_E()		LCD_E_PINOUT_REG&=~LCD_E_PINBIT_MASK	// Disable LCD
 

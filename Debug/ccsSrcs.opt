@@ -1,1 +1,1 @@
-"../can.c" "../globals.c" "../init.c" "../lcd.c" "../main.c" "../spi.c" 
+"../can.c" "../can.o" "../global.o" "../globals.c" "../init.c" "../init.o" "../lcd.c" "../main.c" "../main.o" "../spi.c" "../spi.o" 

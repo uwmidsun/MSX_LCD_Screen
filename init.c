@@ -7,7 +7,8 @@ Initialize the variables and initial MSP430 settings
 
 //#includes
 
-#include "global.h"
+#include "globals.h"
+#include "main.h"
 #include "init.h" 
 
 /*
@@ -34,11 +35,10 @@ void initIO(void)
 	//Set CAN 
 	//Interupt set as input 
 	//Everything else is set as output just to give an initialized state - temporary 
-	P2DIR 				|= ~CAN_int_pin; 
+	P2DIR 				|= ~CAN_nINT; 
 	P3DIR 				|= CAN_nCS | CAN_MOSI | CAN_MISO | CAN_SCLK;
 	
 	//Switches on panel set to input 
-	P2DIR 				|= ~(Panel_SW1 | Panel_SW1);
 	
 	P1OUT = 0x00;
 	P2OUT = 0x00;
@@ -97,3 +97,4 @@ void initTimers(void) {
 	// ... to TACCR0); disable TAIV (default - use CCIFG instead)
 	TACTL = TASSEL_1 + MC_1; 
 }
+

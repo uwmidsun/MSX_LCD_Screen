@@ -19,26 +19,6 @@ int CAN_Activity=0;
 
 
 
-/*+++++++++++++++++++++++++
- * Initialise I/O port directions and states
- *	- Drive unused pins as outputs to avoid floating inputs
- ++++++++++++++++++++++++++*/
-void io_init( void )
-{
-	//SPI pins to peripheral module
-	P3SEL |= 0x0E;                            // P3.1-3 SPI option select
-	
-	//SPI CS pin to output
-	P3DIR |= 0x01;                            // P3.0 output direction
-	P3OUT |= 0x01;
-	
-	//CAN interrupt pin to input
-	P1DIR &= ~0x01;
-	
-	init_LCD_IO();
-}
-
-
 //=====Program======
 
 //+++++Interrupts+++++
@@ -99,7 +79,7 @@ int main()
 	//Initialise the necessary clocks, from the right sources
 	initClocks();
 	//Initialise the necessary IO ports
-	io_init();	
+	initIO();	
 	//Initialise the timer/CCR module
 	initTimers();	
 	//Initialise the SPI module
@@ -107,7 +87,7 @@ int main()
 	//Initialise the attached CAN controller via SPI
 	can_init();
 	//enable interrupts
-	int_init();
+	//int_init();
 	
 	_BIS_SR(GIE);
 	
@@ -126,11 +106,11 @@ int main()
     volatile unsigned int i;            // volatile to prevent optimization
 	while (1)
 	{	
-	    sprintf(text, "CAN_Activity: CAN_Activity %i", CAN_Activity);
+	    sprintf(text, "CAN_Activity: %d", CAN_Activity);
 		LCD_Cmd_WriteLine(1, text);
-		sprintf(text, "CAN Error: %i", CAN_error);
+		sprintf(text, "CAN Error: %d", CAN_error);
 		LCD_Cmd_WriteLine(2, text);
-		sprintf(text, "Velocity: %f", actual_velocity);
+		sprintf(text, "Velocity: %d", actual_velocity);
 		LCD_Cmd_WriteLine(3, text);
 	    i = 0;                          // SW Delay
 	    for (i; i<500000;i++);
@@ -138,3 +118,4 @@ int main()
 	
 	//return 0;
 }
+

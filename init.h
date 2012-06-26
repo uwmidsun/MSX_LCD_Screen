@@ -13,7 +13,7 @@
 /* =================================== Function Prototypes =================================== */
 
 void initClocks(void );
-void init_LCD_IO(void);
+void initIO(void);
 void initTimers(void);
 
 /* =================================== #defines =================================== */
@@ -36,6 +36,7 @@ void initTimers(void);
 #define LCD_D5_PINOUT_REG		P4OUT
 #define LCD_D6_PINOUT_REG		P4OUT
 #define LCD_D7_PINOUT_REG		P4OUT
+#define LCD_DX_PINOUT_REG		P4OUT
 #define LCD_RS_PINOUT_REG		P2OUT
 #define LCD_BK_PINOUT_REG		P2OUT
 #define LCD_RW_PINOUT_REG		P3OUT
@@ -50,6 +51,7 @@ void initTimers(void);
 #define LCD_D5_PININ_REG		P4IN
 #define LCD_D6_PININ_REG		P4IN
 #define LCD_D7_PININ_REG		P4IN
+#define LCD_DX_PININ_REG		P4IN
 #define LCD_RS_PININ_REG		P2IN
 #define LCD_BK_PININ_REG		P2IN
 #define LCD_RW_PININ_REG		P3IN
@@ -64,6 +66,7 @@ void initTimers(void);
 #define LCD_D5_PINDIR_REG		P4DIR
 #define LCD_D6_PINDIR_REG		P4DIR
 #define LCD_D7_PINDIR_REG		P4DIR
+#define LCD_DX_PINDIR_REG		P4DIR
 #define LCD_RS_PINDIR_REG		P2DIR
 #define LCD_BK_PINDIR_REG		P2DIR
 #define LCD_RW_PINDIR_REG		P3DIR
