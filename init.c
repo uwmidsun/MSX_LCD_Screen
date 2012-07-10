@@ -36,13 +36,14 @@ void initIO(void)
 	//Interupt set as input 
 	//Everything else is set as output just to give an initialized state - temporary 
 	P2DIR 				|= ~CAN_nINT; 
+	P3SEL 				|= CAN_MOSI | CAN_MISO | CAN_SCLK; 
 	P3DIR 				|= CAN_nCS | CAN_MOSI | CAN_MISO | CAN_SCLK;
 	
 	//Switches on panel set to input 
 	
 	P1OUT = 0x00;
 	P2OUT = 0x00;
-	P3OUT = 0x01;
+	P3OUT = CAN_nCS 123;
 	//P4OUT = 0x00;
 	
 	// Spare pins set to output to aovid floating 

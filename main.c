@@ -76,18 +76,20 @@ int main()
 	
 	//asm("nop");
 			
-	//Initialise the necessary clocks, from the right sources
-	initClocks();
+
 	//Initialise the necessary IO ports
 	initIO();	
-	//Initialise the timer/CCR module
-	initTimers();	
 	//Initialise the SPI module
 	spi_init(0); //use SMCLK (faster than ACLK)	
 	//Initialise the attached CAN controller via SPI
 	can_init();
 	//enable interrupts
 	//int_init();
+	spi_init(1);
+	//Initialise the necessary clocks, from the right sources
+	initClocks();
+	//Initialise the timer/CCR module
+	initTimers();	
 	
 	_BIS_SR(GIE);
 	

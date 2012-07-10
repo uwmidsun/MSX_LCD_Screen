@@ -1,10 +1,10 @@
 ******************************************************************************
                   MSP430 Linker PC v3.3.3                      
 ******************************************************************************
->> Linked Mon Jun 25 22:04:21 2012
+>> Linked Mon Jul 02 20:13:47 2012
 
 OUTPUT FILE NAME:   <NEW_LCD.out>
-ENTRY POINT SYMBOL: "_c_int00"  address: 00008d50
+ENTRY POINT SYMBOL: "_c_int00"  address: 00008d5c
 
 
 MEMORY CONFIGURATION
@@ -19,7 +19,7 @@ MEMORY CONFIGURATION
   INFOC                 00001040   00000040  00000000  00000040  RWIX
   INFOB                 00001080   00000040  00000000  00000040  RWIX
   INFOA                 000010c0   00000040  00000000  00000040  RWIX
-  FLASH                 00008000   00007fde  00000f4e  00007090  RWIX
+  FLASH                 00008000   00007fde  00000f5a  00007084  RWIX
   INT00                 0000ffe0   00000002  00000000  00000002  RWIX
   INT01                 0000ffe2   00000002  00000000  00000002  RWIX
   INT02                 0000ffe4   00000002  00000000  00000002  RWIX
@@ -56,72 +56,72 @@ section   page    origin      length       input sections
                   000005b0    00000002     rts430.lib : boot.obj (.stack)
                   000005b2    0000004e     --HOLE--
 
-.text      0    00008000    00000ef8     
+.text      0    00008000    00000f04     
                   00008000    0000018e     can.obj (.text:can_receive)
                   0000818e    00000116     rts430.lib : _printfi_min.obj (.text:_setfield)
                   000082a4    00000106     lcd.obj (.text:LCD_RunCommand)
                   000083aa    00000104     can.obj (.text:can_init)
                   000084ae    000000ca     rts430.lib : _printfi_min.obj (.text:_printfi_minimal)
-                  00008578    000000b2     main.obj (.text:main)
-                  0000862a    0000009e     lcd.obj (.text:LCD_LoadChar)
-                  000086c8    00000084     lcd.obj (.text:LCD_FunctionSetInit)
-                  0000874c    0000007e     lcd.obj (.text:LCD_Cmd_WriteLine)
-                  000087ca    00000072     lcd.obj (.text:LCD_ReadChar)
-                  0000883c    0000006a     lcd.obj (.text:LCD_Cmd_WaitTillReady)
-                  000088a6    0000006a     rts430.lib : _printfi_min.obj (.text:_ltostr)
-                  00008910    0000005c                : lsr32.obj (.text:l_lsr_const)
-                  0000896c    00000058                : _printfi_min.obj (.text:_pproc_diouxp)
-                  000089c4    00000058                : div32u.obj (.text)
-                  00008a1c    00000056     main.obj (.text:can_interrupt)
-                  00008a72    00000046     rts430.lib : autoinit.obj (.text:_auto_init)
-                  00008ab8    00000046                : _printfi_min.obj (.text:_pproc_str)
-                  00008afe    00000044                : _printfi_min.obj (.text:_getarg_diouxp)
-                  00008b42    00000044     lcd.obj (.text:initLCD)
-                  00008b86    00000040     can.obj (.text:can_write)
-                  00008bc6    0000003c     can.obj (.text:can_read)
-                  00008c02    00000038     rts430.lib : sprintf.obj (.text:sprintf)
-                  00008c3a    00000034                : _printfi_min.obj (.text:_div)
-                  00008c6e    00000034     init.obj (.text:initIO)
-                  00008ca2    00000032     can.obj (.text:can_mod)
-                  00008cd4    0000002c     rts430.lib : asr16.obj (.text)
-                  00008d00    00000028                : memccpy.obj (.text:memccpy)
-                  00008d28    00000028     spi.obj (.text:spi_init)
-                  00008d50    00000026     rts430.lib : boot.obj (.text:_c_int00_noexit)
-                  00008d76    00000020     lcd.obj (.text:LCD_Wait6us)
-                  00008d96    0000001a     rts430.lib : sprintf.obj (.text:_outs)
-                  00008db0    00000016                : div16u.obj (.text)
-                  00008dc6    00000014     init.obj (.text:initTimers)
-                  00008dda    00000014     rts430.lib : memset.obj (.text:memset)
-                  00008dee    00000014                : mult16.obj (.text)
-                  00008e02    00000012                : sprintf.obj (.text:_outc)
-                  00008e14    00000012     can.obj (.text:can_reset)
-                  00008e26    00000012     init.obj (.text:initClocks)
-                  00008e38    00000012     rts430.lib : memcpy.obj (.text:memcpy)
-                  00008e4a    00000012                : strlen.obj (.text:strlen)
-                  00008e5c    00000010     lcd.obj (.text:LCD_Cmd_FunctionSet)
-                  00008e6c    00000010     lcd.obj (.text:LCD_Cmd_SetDdramAddr)
-                  00008e7c    00000010     rts430.lib : epilog.obj (.text)
-                  00008e8c    00000010     spi.obj (.text:spi_exchange)
-                  00008e9c    0000000e     lcd.obj (.text:LCD_Cmd_ConfigEntryMode)
-                  00008eaa    0000000e     lcd.obj (.text:LCD_Cmd_DisplayConfig)
-                  00008eb8    0000000c     lcd.obj (.text:LCD_Cmd_ClearAndHome)
-                  00008ec4    0000000c     lcd.obj (.text:LCD_Cmd_Home)
-                  00008ed0    0000000c     lcd.obj (.text:LCD_Cmd_WriteData)
-                  00008edc    0000000c     spi.obj (.text:spi_transmit)
-                  00008ee8    00000006     main.obj (.text:TimerA0_ISR)
-                  00008eee    00000004     rts430.lib : pre_init.obj (.text:_system_pre_init)
-                  00008ef2    00000004                : exit.obj (.text:abort)
-                  00008ef6    00000002                : _lock.obj (.text:_nop)
+                  00008578    000000b8     main.obj (.text:main)
+                  00008630    0000009e     lcd.obj (.text:LCD_LoadChar)
+                  000086ce    00000084     lcd.obj (.text:LCD_FunctionSetInit)
+                  00008752    0000007e     lcd.obj (.text:LCD_Cmd_WriteLine)
+                  000087d0    00000072     lcd.obj (.text:LCD_ReadChar)
+                  00008842    0000006a     lcd.obj (.text:LCD_Cmd_WaitTillReady)
+                  000088ac    0000006a     rts430.lib : _printfi_min.obj (.text:_ltostr)
+                  00008916    0000005c                : lsr32.obj (.text:l_lsr_const)
+                  00008972    00000058                : _printfi_min.obj (.text:_pproc_diouxp)
+                  000089ca    00000058                : div32u.obj (.text)
+                  00008a22    00000056     main.obj (.text:can_interrupt)
+                  00008a78    00000046     rts430.lib : autoinit.obj (.text:_auto_init)
+                  00008abe    00000046                : _printfi_min.obj (.text:_pproc_str)
+                  00008b04    00000044                : _printfi_min.obj (.text:_getarg_diouxp)
+                  00008b48    00000044     lcd.obj (.text:initLCD)
+                  00008b8c    00000040     can.obj (.text:can_write)
+                  00008bcc    0000003c     can.obj (.text:can_read)
+                  00008c08    0000003a     init.obj (.text:initIO)
+                  00008c42    00000038     rts430.lib : sprintf.obj (.text:sprintf)
+                  00008c7a    00000034                : _printfi_min.obj (.text:_div)
+                  00008cae    00000032     can.obj (.text:can_mod)
+                  00008ce0    0000002c     rts430.lib : asr16.obj (.text)
+                  00008d0c    00000028                : memccpy.obj (.text:memccpy)
+                  00008d34    00000028     spi.obj (.text:spi_init)
+                  00008d5c    00000026     rts430.lib : boot.obj (.text:_c_int00_noexit)
+                  00008d82    00000020     lcd.obj (.text:LCD_Wait6us)
+                  00008da2    0000001a     rts430.lib : sprintf.obj (.text:_outs)
+                  00008dbc    00000016                : div16u.obj (.text)
+                  00008dd2    00000014     init.obj (.text:initTimers)
+                  00008de6    00000014     rts430.lib : memset.obj (.text:memset)
+                  00008dfa    00000014                : mult16.obj (.text)
+                  00008e0e    00000012                : sprintf.obj (.text:_outc)
+                  00008e20    00000012     can.obj (.text:can_reset)
+                  00008e32    00000012     init.obj (.text:initClocks)
+                  00008e44    00000012     rts430.lib : memcpy.obj (.text:memcpy)
+                  00008e56    00000012                : strlen.obj (.text:strlen)
+                  00008e68    00000010     lcd.obj (.text:LCD_Cmd_FunctionSet)
+                  00008e78    00000010     lcd.obj (.text:LCD_Cmd_SetDdramAddr)
+                  00008e88    00000010     rts430.lib : epilog.obj (.text)
+                  00008e98    00000010     spi.obj (.text:spi_exchange)
+                  00008ea8    0000000e     lcd.obj (.text:LCD_Cmd_ConfigEntryMode)
+                  00008eb6    0000000e     lcd.obj (.text:LCD_Cmd_DisplayConfig)
+                  00008ec4    0000000c     lcd.obj (.text:LCD_Cmd_ClearAndHome)
+                  00008ed0    0000000c     lcd.obj (.text:LCD_Cmd_Home)
+                  00008edc    0000000c     lcd.obj (.text:LCD_Cmd_WriteData)
+                  00008ee8    0000000c     spi.obj (.text:spi_transmit)
+                  00008ef4    00000006     main.obj (.text:TimerA0_ISR)
+                  00008efa    00000004     rts430.lib : pre_init.obj (.text:_system_pre_init)
+                  00008efe    00000004                : exit.obj (.text:abort)
+                  00008f02    00000002                : _lock.obj (.text:_nop)
 
-.const     0    00008ef8    00000042     
-                  00008ef8    0000002e     main.obj (.const:.string)
-                  00008f26    00000014     rts430.lib : _printfi_min.obj (.const:.string)
+.const     0    00008f04    00000042     
+                  00008f04    0000002e     main.obj (.const:.string)
+                  00008f32    00000014     rts430.lib : _printfi_min.obj (.const:.string)
 
-.cinit     0    00008f3a    00000014     
-                  00008f3a    0000000c     main.obj (.cinit)
-                  00008f46    00000005     globals.obj (.cinit)
-                  00008f4b    00000001     --HOLE-- [fill = 0]
-                  00008f4c    00000002     (.pad.cinit) [fill = 0]
+.cinit     0    00008f46    00000014     
+                  00008f46    0000000c     main.obj (.cinit)
+                  00008f52    00000005     globals.obj (.cinit)
+                  00008f57    00000001     --HOLE-- [fill = 0]
+                  00008f58    00000002     (.pad.cinit) [fill = 0]
 
 .int03     0    0000ffe6    00000002     
                   0000ffe6    00000002     main.obj (.int03)
@@ -150,7 +150,7 @@ address    name
 00000057   BCSCTL1
 00000058   BCSCTL2
 00000053   BCSCTL3
-00008ef2   C$$EXIT
+00008efe   C$$EXIT
 000010fb   CALBC1_12MHZ
 000010f9   CALBC1_16MHZ
 000010ff   CALBC1_1MHZ
@@ -169,51 +169,51 @@ address    name
 00000001   IE2
 00000002   IFG1
 00000003   IFG2
-00008cd4   I_ASR
-00008cfc   I_ASR_1
-00008cea   I_ASR_10
-00008ce8   I_ASR_11
-00008ce6   I_ASR_12
-00008ce4   I_ASR_13
-00008ce2   I_ASR_14
-00008ce0   I_ASR_15
-00008cfa   I_ASR_2
-00008cf8   I_ASR_3
-00008cf6   I_ASR_4
-00008cf4   I_ASR_5
-00008cf2   I_ASR_6
-00008cf0   I_ASR_7
-00008cee   I_ASR_8
-00008cec   I_ASR_9
-00008eb8   LCD_Cmd_ClearAndHome
-00008e9c   LCD_Cmd_ConfigEntryMode
-00008eaa   LCD_Cmd_DisplayConfig
-00008e5c   LCD_Cmd_FunctionSet
-00008ec4   LCD_Cmd_Home
-00008e6c   LCD_Cmd_SetDdramAddr
-0000883c   LCD_Cmd_WaitTillReady
-00008ed0   LCD_Cmd_WriteData
-0000874c   LCD_Cmd_WriteLine
-000086c8   LCD_FunctionSetInit
-0000862a   LCD_LoadChar
-000087ca   LCD_ReadChar
+00008ce0   I_ASR
+00008d08   I_ASR_1
+00008cf6   I_ASR_10
+00008cf4   I_ASR_11
+00008cf2   I_ASR_12
+00008cf0   I_ASR_13
+00008cee   I_ASR_14
+00008cec   I_ASR_15
+00008d06   I_ASR_2
+00008d04   I_ASR_3
+00008d02   I_ASR_4
+00008d00   I_ASR_5
+00008cfe   I_ASR_6
+00008cfc   I_ASR_7
+00008cfa   I_ASR_8
+00008cf8   I_ASR_9
+00008ec4   LCD_Cmd_ClearAndHome
+00008ea8   LCD_Cmd_ConfigEntryMode
+00008eb6   LCD_Cmd_DisplayConfig
+00008e68   LCD_Cmd_FunctionSet
+00008ed0   LCD_Cmd_Home
+00008e78   LCD_Cmd_SetDdramAddr
+00008842   LCD_Cmd_WaitTillReady
+00008edc   LCD_Cmd_WriteData
+00008752   LCD_Cmd_WriteLine
+000086ce   LCD_FunctionSetInit
+00008630   LCD_LoadChar
+000087d0   LCD_ReadChar
 000082a4   LCD_RunCommand
-00008d76   LCD_Wait6us
-00008964   L_LSR_1
-0000892e   L_LSR_10
-00008928   L_LSR_11
-00008922   L_LSR_12
-0000891c   L_LSR_13
-00008916   L_LSR_14
-00008910   L_LSR_15
-0000895e   L_LSR_2
-00008958   L_LSR_3
-00008952   L_LSR_4
-0000894c   L_LSR_5
-00008946   L_LSR_6
-00008940   L_LSR_7
-0000893a   L_LSR_8
-00008934   L_LSR_9
+00008d82   LCD_Wait6us
+0000896a   L_LSR_1
+00008934   L_LSR_10
+0000892e   L_LSR_11
+00008928   L_LSR_12
+00008922   L_LSR_13
+0000891c   L_LSR_14
+00008916   L_LSR_15
+00008964   L_LSR_2
+0000895e   L_LSR_3
+00008958   L_LSR_4
+00008952   L_LSR_5
+0000894c   L_LSR_6
+00008946   L_LSR_7
+00008940   L_LSR_8
+0000893a   L_LSR_9
 00000022   P1DIR
 00000025   P1IE
 00000024   P1IES
@@ -259,7 +259,7 @@ address    name
 0000011e   TBIV
 00000190   TBR
 00000242   TimerA0_Flag
-00008ee8   TimerA0_ISR
+00008ef4   TimerA0_ISR
 0000005d   UCA0ABCTL
 00000062   UCA0BR0
 00000063   UCA0BR1
@@ -290,64 +290,64 @@ address    name
 ffffffff   __binit__
 00000200   __bss__
 ffffffff   __c_args__
-00008f3a   __cinit__
-00008db0   __divu
-000089c4   __divul
+00008f46   __cinit__
+00008dbc   __divu
+000089ca   __divul
 00000243   __end__
-00008ef8   __etext__
-00008dee   __mpyi
+00008f04   __etext__
+00008dfa   __mpyi
 ffffffff   __pinit__
-00008db0   __remu
-000089c4   __remul
+00008dbc   __remu
+000089ca   __remul
 00008000   __text__
-00008a72   _auto_init
-00008d50   _c_int00
-00008d50   _c_int00_noexit
+00008a78   _auto_init
+00008d5c   _c_int00
+00008d5c   _c_int00_noexit
 0000023e   _cleanup_ptr
 00000240   _dtors_ptr
 0000023a   _lock
-00008ef6   _nop
+00008f02   _nop
 000084ae   _printfi_minimal
 0000fffe   _reset_vector
 000005b0   _stack
-00008eee   _system_pre_init
+00008efa   _system_pre_init
 0000023c   _unlock
-00008ef2   abort
+00008efe   abort
 00000218   actual_velocity
 ffffffff   binit
 0000022a   buffer
 0000021e   can
 000083aa   can_init
-00008a1c   can_interrupt
-00008ca2   can_mod
-00008bc6   can_read
+00008a22   can_interrupt
+00008cae   can_mod
+00008bcc   can_read
 00008000   can_receive
-00008e14   can_reset
-00008b86   can_write
-00008f3a   cinit
+00008e20   can_reset
+00008b8c   can_write
+00008f46   cinit
 00000243   end
-00008ef8   etext
-00008e88   func_epilog_1
-00008e86   func_epilog_2
-00008e84   func_epilog_3
-00008e82   func_epilog_4
-00008e80   func_epilog_5
-00008e7e   func_epilog_6
-00008e7c   func_epilog_7
-00008e26   initClocks
-00008c6e   initIO
-00008b42   initLCD
-00008dc6   initTimers
+00008f04   etext
+00008e94   func_epilog_1
+00008e92   func_epilog_2
+00008e90   func_epilog_3
+00008e8e   func_epilog_4
+00008e8c   func_epilog_5
+00008e8a   func_epilog_6
+00008e88   func_epilog_7
+00008e32   initClocks
+00008c08   initIO
+00008b48   initLCD
+00008dd2   initTimers
 00008578   main
-00008d00   memccpy
-00008e38   memcpy
-00008dda   memset
+00008d0c   memccpy
+00008e44   memcpy
+00008de6   memset
 ffffffff   pinit
-00008e8c   spi_exchange
-00008d28   spi_init
-00008edc   spi_transmit
-00008c02   sprintf
-00008e4a   strlen
+00008e98   spi_exchange
+00008d34   spi_init
+00008ee8   spi_transmit
+00008c42   sprintf
+00008e56   strlen
 00000200   text
 
 
@@ -476,91 +476,91 @@ address    name
 000083aa   can_init
 000084ae   _printfi_minimal
 00008578   main
-0000862a   LCD_LoadChar
-000086c8   LCD_FunctionSetInit
-0000874c   LCD_Cmd_WriteLine
-000087ca   LCD_ReadChar
-0000883c   LCD_Cmd_WaitTillReady
-00008910   L_LSR_15
-00008916   L_LSR_14
-0000891c   L_LSR_13
-00008922   L_LSR_12
-00008928   L_LSR_11
-0000892e   L_LSR_10
-00008934   L_LSR_9
-0000893a   L_LSR_8
-00008940   L_LSR_7
-00008946   L_LSR_6
-0000894c   L_LSR_5
-00008952   L_LSR_4
-00008958   L_LSR_3
-0000895e   L_LSR_2
-00008964   L_LSR_1
-000089c4   __divul
-000089c4   __remul
-00008a1c   can_interrupt
-00008a72   _auto_init
-00008b42   initLCD
-00008b86   can_write
-00008bc6   can_read
-00008c02   sprintf
-00008c6e   initIO
-00008ca2   can_mod
-00008cd4   I_ASR
-00008ce0   I_ASR_15
-00008ce2   I_ASR_14
-00008ce4   I_ASR_13
-00008ce6   I_ASR_12
-00008ce8   I_ASR_11
-00008cea   I_ASR_10
-00008cec   I_ASR_9
-00008cee   I_ASR_8
-00008cf0   I_ASR_7
-00008cf2   I_ASR_6
-00008cf4   I_ASR_5
-00008cf6   I_ASR_4
-00008cf8   I_ASR_3
-00008cfa   I_ASR_2
-00008cfc   I_ASR_1
-00008d00   memccpy
-00008d28   spi_init
-00008d50   _c_int00
-00008d50   _c_int00_noexit
-00008d76   LCD_Wait6us
-00008db0   __divu
-00008db0   __remu
-00008dc6   initTimers
-00008dda   memset
-00008dee   __mpyi
-00008e14   can_reset
-00008e26   initClocks
-00008e38   memcpy
-00008e4a   strlen
-00008e5c   LCD_Cmd_FunctionSet
-00008e6c   LCD_Cmd_SetDdramAddr
-00008e7c   func_epilog_7
-00008e7e   func_epilog_6
-00008e80   func_epilog_5
-00008e82   func_epilog_4
-00008e84   func_epilog_3
-00008e86   func_epilog_2
-00008e88   func_epilog_1
-00008e8c   spi_exchange
-00008e9c   LCD_Cmd_ConfigEntryMode
-00008eaa   LCD_Cmd_DisplayConfig
-00008eb8   LCD_Cmd_ClearAndHome
-00008ec4   LCD_Cmd_Home
-00008ed0   LCD_Cmd_WriteData
-00008edc   spi_transmit
-00008ee8   TimerA0_ISR
-00008eee   _system_pre_init
-00008ef2   C$$EXIT
-00008ef2   abort
-00008ef6   _nop
-00008ef8   __etext__
-00008ef8   etext
-00008f3a   __cinit__
-00008f3a   cinit
+00008630   LCD_LoadChar
+000086ce   LCD_FunctionSetInit
+00008752   LCD_Cmd_WriteLine
+000087d0   LCD_ReadChar
+00008842   LCD_Cmd_WaitTillReady
+00008916   L_LSR_15
+0000891c   L_LSR_14
+00008922   L_LSR_13
+00008928   L_LSR_12
+0000892e   L_LSR_11
+00008934   L_LSR_10
+0000893a   L_LSR_9
+00008940   L_LSR_8
+00008946   L_LSR_7
+0000894c   L_LSR_6
+00008952   L_LSR_5
+00008958   L_LSR_4
+0000895e   L_LSR_3
+00008964   L_LSR_2
+0000896a   L_LSR_1
+000089ca   __divul
+000089ca   __remul
+00008a22   can_interrupt
+00008a78   _auto_init
+00008b48   initLCD
+00008b8c   can_write
+00008bcc   can_read
+00008c08   initIO
+00008c42   sprintf
+00008cae   can_mod
+00008ce0   I_ASR
+00008cec   I_ASR_15
+00008cee   I_ASR_14
+00008cf0   I_ASR_13
+00008cf2   I_ASR_12
+00008cf4   I_ASR_11
+00008cf6   I_ASR_10
+00008cf8   I_ASR_9
+00008cfa   I_ASR_8
+00008cfc   I_ASR_7
+00008cfe   I_ASR_6
+00008d00   I_ASR_5
+00008d02   I_ASR_4
+00008d04   I_ASR_3
+00008d06   I_ASR_2
+00008d08   I_ASR_1
+00008d0c   memccpy
+00008d34   spi_init
+00008d5c   _c_int00
+00008d5c   _c_int00_noexit
+00008d82   LCD_Wait6us
+00008dbc   __divu
+00008dbc   __remu
+00008dd2   initTimers
+00008de6   memset
+00008dfa   __mpyi
+00008e20   can_reset
+00008e32   initClocks
+00008e44   memcpy
+00008e56   strlen
+00008e68   LCD_Cmd_FunctionSet
+00008e78   LCD_Cmd_SetDdramAddr
+00008e88   func_epilog_7
+00008e8a   func_epilog_6
+00008e8c   func_epilog_5
+00008e8e   func_epilog_4
+00008e90   func_epilog_3
+00008e92   func_epilog_2
+00008e94   func_epilog_1
+00008e98   spi_exchange
+00008ea8   LCD_Cmd_ConfigEntryMode
+00008eb6   LCD_Cmd_DisplayConfig
+00008ec4   LCD_Cmd_ClearAndHome
+00008ed0   LCD_Cmd_Home
+00008edc   LCD_Cmd_WriteData
+00008ee8   spi_transmit
+00008ef4   TimerA0_ISR
+00008efa   _system_pre_init
+00008efe   C$$EXIT
+00008efe   abort
+00008f02   _nop
+00008f04   __etext__
+00008f04   etext
+00008f46   __cinit__
+00008f46   cinit
 0000fffe   _reset_vector
 ffffffff   __binit__
 ffffffff   __c_args__

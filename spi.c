@@ -27,7 +27,7 @@ void spi_init( unsigned char clock )
 	// --set the direction // P3SEL |= CAN_MOSI | CAN_MISO | CAN_SCLK;	
 	//Note, may have to play around with polarity and clock edging 
 	UCB0CTL1 |= UCSWRST; //Hold module in logic freeze
-	UCB0CTL0 |= UCCKPH | UCMSB | UCMST | UCSYNC; // UCMODE 3-pin,8-bit SPI master
+	UCB0CTL0 |= UCCKPL | UCMSB | UCMST | UCSYNC; // UCMODE 3-pin,8-bit SPI master
 	//UCMSB sets the 3wire vs 4 wire mode, old DCU seems to have used 4 pin mode. 
 	if( clock == 0 ) 
 	{
